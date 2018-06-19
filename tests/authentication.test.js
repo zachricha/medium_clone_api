@@ -9,19 +9,8 @@ const { posts, populatePosts, users, populateUsers } = require('./seed/seed');
 beforeEach(populatePosts);
 beforeEach(populateUsers);
 
-describe('GET /posts', () => {
-  it('should return all posts', (done) => {
-    request(app)
-    .get('/posts')
-    .expect(200)
-    .expect((res) => {
-      expect(res.body.posts.length).to.equal(2);
-    })
-    .end(done);
-  });
-});
-
 describe('POST /signup', () => {
+
   it('should create a user', (done) => {
     const email = 'example4@example.com';
     const obj = {
@@ -54,6 +43,7 @@ describe('POST /signup', () => {
   });
 
   it('should return validation errors if request invalid', (done) => {
+
     request(app)
       .post('/signup')
       .send({
@@ -67,6 +57,7 @@ describe('POST /signup', () => {
   });
 
   it('should not create user if email in use', (done) => {
+
     request(app)
       .post('/signup')
       .send({
@@ -80,6 +71,7 @@ describe('POST /signup', () => {
   });
 
   it('should not create user if username in use', (done) => {
+
     request(app)
       .post('/signup')
       .send({
@@ -94,7 +86,9 @@ describe('POST /signup', () => {
 });
 
 describe('POST /login', () => {
+
   it('should login user and return auth token', (done) => {
+
     request(app)
       .post('/login')
       .send({
@@ -121,6 +115,7 @@ describe('POST /login', () => {
   });
 
   it('should reject invalid login', (done) => {
+
     request(app)
       .post('/login')
       .send({
@@ -145,6 +140,7 @@ describe('POST /login', () => {
 });
 
 describe('DELETE /logout', () => {
+  
   it('should remove auth token on logout', (done) => {
     request(app)
       .delete('/logout')

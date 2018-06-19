@@ -1,14 +1,13 @@
 const express = require('express');
-const {ObjectID} = require('mongodb');
 const { User, Post } = require('../models');
 const { auth, checkAuth } = require('../middleware/auth');
 
 const Router = express.Router();
 
+// gets a user
 Router.route('/users/me').get(auth, (req, res) => {
     return res.send(req.user);
 });
-
 // creates a post
 Router.route('/users/post')
 .post(auth, (req, res) => {
@@ -27,7 +26,7 @@ Router.route('/users/post')
     return res.status(400).send();
   });
 });
-
+// deletes a user
 Router.route('/users/delete')
 .delete(auth, (req, res) => {
 
@@ -67,6 +66,7 @@ Router.route('/users/update/email')
 // updates bio
 Router.route('/users/update/bio')
 .patch(auth, (req, res) => {
+  
   if(!req.body.bio) {
     req.body.bio = 'Bio';
   };

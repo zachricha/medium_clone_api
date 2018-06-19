@@ -5,6 +5,16 @@ const { auth, checkAuth } = require('../middleware/auth');
 
 const Router = express.Router();
 
+// gets all posts
+Router.route('/posts').get((req, res) => {
+
+  Post.find().populate('user').exec().then((posts) => {
+    return res.send({posts});
+  }).catch(e => {
+    return res.status(400).send(e);
+  });
+});
+
 Router
   .route('/posts/:id')
   // gets a single post
@@ -34,7 +44,7 @@ Router
       return res.status(400).send(e);
     });
   })
-  // edits post
+  // edits a post
   .patch(auth, (req, res) => {
     const id = req.params.id;
 
@@ -59,7 +69,7 @@ Router
       return res.status(400).send(e);
     });
   })
-  // deletes post
+  // deletes a post
   .delete(auth, (req, res) => {
     const id = req.params.id;
 
@@ -79,6 +89,7 @@ Router
         req.user.posts.splice(req.user.posts.indexOf(post.id),1);
 
         const likeIndex = req.user.likes.indexOf(post.id);
+
         if(likeIndex !== -1) {
           req.user.likes.splice(likeIndex,1);
         };
@@ -86,7 +97,6 @@ Router
         req.user.save().then(() => {
           return res.send(post);
         });
-
       });
     }).catch(e => {
       return res.status(400).send(e);

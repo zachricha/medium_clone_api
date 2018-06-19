@@ -10,7 +10,9 @@ beforeEach(populatePosts);
 beforeEach(populateUsers);
 
 describe('GET /users/me', () => {
+
   it('should return user if authenticated', (done) => {
+
     request(app)
       .get('/users/me')
       .set('x-auth', users[0].tokens[0].token)
@@ -23,6 +25,7 @@ describe('GET /users/me', () => {
   });
 
   it('should return 401 if not authenticated', (done) => {
+
     request(app)
       .get('/users/me')
       .expect(401)
@@ -62,6 +65,7 @@ describe('POST /users/post', () => {
   });
 
   it('should not create a post with invalid body data', (done) => {
+    
     request(app)
       .post('/users/post')
       .set('x-auth', users[0].tokens[0].token)

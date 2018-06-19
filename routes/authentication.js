@@ -4,16 +4,7 @@ const {auth} = require('../middleware/auth');
 
 const Router = express.Router();
 
-Router.route('/posts').get((req, res) => {
-
-  Post.find().populate('user').exec().then((posts) => {
-
-    return res.send({posts});
-  }).catch(e => {
-    return res.status(400).send(e);
-  });
-});
-
+// login
 Router.route('/login').post((req, res) => {
 
   User.findByCredentials(req.body.email, req.body.password).then((user) => {
@@ -24,7 +15,7 @@ Router.route('/login').post((req, res) => {
     res.status(400).send(e);
   });
 });
-
+// signup
 Router.route('/signup').post((req, res) => {
   const user = new User(req.body);
 
@@ -36,7 +27,7 @@ Router.route('/signup').post((req, res) => {
     res.status(400).send(e);
   });
 });
-
+//logout
 Router.route('/logout').delete(auth, (req, res) => {
 
   req.user.removeToken(req.token).then(() => {

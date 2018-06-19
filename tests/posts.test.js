@@ -9,6 +9,20 @@ const { posts, populatePosts, users, populateUsers } = require('./seed/seed');
 beforeEach(populatePosts);
 beforeEach(populateUsers);
 
+describe('GET /posts', () => {
+
+  it('should return all posts', (done) => {
+
+    request(app)
+    .get('/posts')
+    .expect(200)
+    .expect((res) => {
+      expect(res.body.posts.length).to.equal(2);
+    })
+    .end(done);
+  });
+});
+
 describe('GET /posts/:id', () => {
 
   it('should get a post by id logged in as the user who posted', (done) => {
@@ -65,6 +79,7 @@ describe('GET /posts/:id', () => {
   });
 
   it('should return 404 for non-object ids', (done) => {
+
     request(app)
       .get('/posts/123')
       .expect(404)
@@ -137,6 +152,7 @@ describe('PATCH /posts/:id', () => {
   });
 
   it('should return 404 for non-object ids', (done) => {
+
     request(app)
       .patch('/posts/123')
       .set('x-auth', users[0].tokens[0].token)
@@ -198,6 +214,7 @@ describe('DELETE /posts/:id', () => {
   });
 
   it('should return 404 for non-object ids', (done) => {
+
     request(app)
       .delete('/posts/123')
       .set('x-auth', users[0].tokens[0].token)
@@ -263,6 +280,7 @@ describe('POST /posts/:id/like', () => {
   });
 
   it('should return 404 for non-object ids', (done) => {
+    
     request(app)
       .post('/posts/123/like')
       .set('x-auth', users[0].tokens[0].token)
